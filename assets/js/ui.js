@@ -24,10 +24,10 @@ export function renderHeader(active = "") {
     <div class="sr-only" id="cartLive" aria-live="polite"></div>
   `;
 
-  updateCartBadge();
+  updateCartBadge(false);
 }
 
-export function updateCartBadge() {
+export function updateCartBadge(announce = true) {
   const cart = getCart();
   const count = cartCount(cart);
 
@@ -35,7 +35,7 @@ export function updateCartBadge() {
   if (badge) badge.textContent = `(${count})`;
 
   const live = document.getElementById("cartLive");
-  if (live) live.textContent = `Cart updated. ${count} item${count === 1 ? "" : "s"} in cart.`;
+  if (live && announce) live.textContent = `Cart updated. ${count} item${count === 1 ? "" : "s"} in cart.`;
 }
 
 export function setMainFocus() {
