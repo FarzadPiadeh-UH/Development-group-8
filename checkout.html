@@ -16,7 +16,7 @@
 
     <div id="checkoutEmpty" class="panel" hidden>
       <p>Your cart is empty. Add products before checkout.</p>
-      <p><a class="btn" href="index.html">Go to products</a></p>
+      <p><a class="btn btn-primary" href="index.html">Go to products</a></p>
     </div>
 
     <div id="checkoutContent" hidden>
@@ -45,6 +45,12 @@
           </div>
 
           <div class="field">
+            <label for="billPhone">Phone</label>
+            <input id="billPhone" name="billPhone" inputmode="tel" autocomplete="tel" required />
+            <div class="field-error" id="err-billPhone" hidden></div>
+          </div>
+
+          <div class="field">
             <label for="billAddress">Address</label>
             <input id="billAddress" name="billAddress" autocomplete="street-address" required />
             <div class="field-error" id="err-billAddress" hidden></div>
@@ -64,72 +70,4 @@
           </div>
 
           <div class="actions">
-            <a class="btn" href="cart.html">Back to cart</a>
-            <button class="btn btn-primary" type="button" id="next1">Next: Shipping</button>
-          </div>
-        </section>
-
-        <section id="step2" class="panel" aria-labelledby="stepLabel2" hidden>
-          <h2>Shipping information</h2>
-
-          <div class="field">
-            <label for="shipName">Recipient name</label>
-            <input id="shipName" name="shipName" autocomplete="name" required />
-            <div class="field-error" id="err-shipName" hidden></div>
-          </div>
-
-          <div class="field">
-            <label for="shipAddress">Shipping address</label>
-            <input id="shipAddress" name="shipAddress" autocomplete="street-address" required />
-            <div class="field-error" id="err-shipAddress" hidden></div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="shipCity">City</label>
-              <input id="shipCity" name="shipCity" autocomplete="address-level2" required />
-              <div class="field-error" id="err-shipCity" hidden></div>
-            </div>
-            <div class="field">
-              <label for="shipPostcode">Postcode</label>
-              <input id="shipPostcode" name="shipPostcode" autocomplete="postal-code" required />
-              <div class="field-error" id="err-shipPostcode" hidden></div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn" type="button" id="back2">Back: Billing</button>
-            <button class="btn btn-primary" type="button" id="next2">Next: Review</button>
-          </div>
-        </section>
-
-        <section id="step3" class="panel" aria-labelledby="stepLabel3" hidden>
-          <h2>Review your order</h2>
-
-          <div class="panel-subtle">
-            <h3>Order summary</h3>
-            <div id="orderSummary"></div>
-          </div>
-
-          <div class="panel-subtle">
-            <h3>Billing summary</h3>
-            <div id="billingSummary"></div>
-          </div>
-
-          <div class="panel-subtle">
-            <h3>Shipping summary</h3>
-            <div id="shippingSummary"></div>
-          </div>
-
-          <div class="actions">
-            <button class="btn" type="button" id="back3">Back: Shipping</button>
-            <a class="btn btn-primary" href="payment.html" id="toPayment">Proceed to payment</a>
-          </div>
-        </section>
-      </form>
-    </div>
-  </main>
-
-  <script type="module" src="assets/js/checkout.js"></script>
-</body>
-</html>
+            <a class="btn" h
