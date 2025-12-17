@@ -16,7 +16,7 @@ function render() {
   if (lines.length === 0) {
     emptyEl.hidden = false;
     contentEl.hidden = true;
-    updateCartBadge();
+    updateCartBadge(false);
     return;
   }
 
@@ -25,20 +25,18 @@ function render() {
 
   tbody.innerHTML = lines.map((l) => {
     const id = l.product.id;
-    const price = formatGBP(l.product.price);
-    const subtotal = formatGBP(l.lineTotal);
 
     return `
       <tr data-id="${escapeHtml(id)}">
         <td>
           <a href="product.html?id=${encodeURIComponent(id)}">${escapeHtml(l.product.name)}</a>
         </td>
-        <td class="num">${price}</td>
+        <td class="num">${formatGBP(l.product.price)}</td>
         <td>
           <label class="sr-only" for="qty-${escapeHtml(id)}">Quantity for ${escapeHtml(l.product.name)}</label>
-          <input id="qty-${escapeHtml(id)}" type="number" min="1" step="1" value="${l.quantity}" class="qty-input" />
+          <input id="qty-${escapeHtml(id)}" type="number" min="1" step="1" value="${l.quantity}" />
         </td>
-        <td class="num">${subtotal}</td>
+        <td class="num">${formatGBP(l.lineTotal)}</td>
         <td>
           <button class="btn" type="button" data-remove="1">Remove</button>
         </td>
@@ -47,7 +45,7 @@ function render() {
   }).join("");
 
   totalEl.textContent = formatGBP(total);
-  updateCartBadge();
+  updateCartBadge(false);
 }
 
 tbody.addEventListener("input", (e) => {
@@ -75,9 +73,7 @@ tbody.addEventListener("click", (e) => {
 
 toCheckout.addEventListener("click", (e) => {
   const { lines } = getCartLines();
-  if (lines.length === 0) {
-    e.preventDefault();
-  }
+  if (lines.length === 0) e.preventDefault();
 });
 
 render();
