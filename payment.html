@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Accessible Shop - Payment</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header" id="siteHeader"></header>
+
+  <main id="main" class="container" tabindex="-1">
+    <h1>Payment</h1>
+
+    <div id="paymentBlocked" class="panel" hidden>
+      <p>To pay, you need items in your cart and completed checkout details.</p>
+      <p class="actions">
+        <a class="btn" href="cart.html">Go to cart</a>
+        <a class="btn" href="checkout.html">Go to checkout</a>
+      </p>
+    </div>
+
+    <div id="paymentContent" hidden>
+      <div class="panel">
+        <h2>Order summary</h2>
+        <div id="paymentSummary"></div>
+      </div>
+
+      <div id="payErrorSummary" class="error-summary" role="alert" aria-live="assertive" hidden></div>
+
+      <form id="paymentForm" class="panel" novalidate>
+        <h2>Card details</h2>
+
+        <div class="field">
+          <label for="cardName">Name on card</label>
+          <input id="cardName" name="cardName" autocomplete="cc-name" required />
+          <div class="field-error" id="err-cardName" hidden></div>
+        </div>
+
+        <div class="field">
+          <label for="cardNumber">Card number</label>
+          <input id="cardNumber" name="cardNumber" inputmode="numeric" autocomplete="cc-number" required />
+          <div class="field-error" id="err-cardNumber" hidden></div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="cardExpiry">Expiry (MM/YY)</label>
+            <input id="cardExpiry" name="cardExpiry" inputmode="numeric" autocomplete="cc-exp" required />
+            <div class="field-error" id="err-cardExpiry" hidden></div>
+          </div>
+
+          <div class="field">
+            <label for="cardCvv">CVV</label>
+            <input id="cardCvv" name="cardCvv" inputmode="numeric" autocomplete="cc-csc" required />
+            <div class="field-error" id="err-cardCvv" hidden></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="btn" href="checkout.html">Back to checkout</a>
+          <button class="btn btn-primary" type="submit" id="payBtn">Pay now</button>
+        </div>
+
+        <p class="hint">This is a demo payment page. No real payments are processed.</p>
+      </form>
+    </div>
+  </main>
+
+  <script type="module" src="assets/js/payment.js"></script>
+</body>
+</html>
