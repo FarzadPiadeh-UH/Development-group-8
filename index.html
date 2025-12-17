@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Accessible Shop - Products</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header" id="siteHeader"></header>
+
+  <main id="main" class="container" tabindex="-1">
+    <h1>Products</h1>
+    <p class="lede">Browse items and add them to your cart without reloading the page.</p>
+
+    <section aria-label="Product listing">
+      <div id="productGrid" class="grid" role="list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Accessible Shop demo. WCAG-minded markup, keyboard support, and clear validation.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/js/listing.js"></script>
+</body>
+</html>
