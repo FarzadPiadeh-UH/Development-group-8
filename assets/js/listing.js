@@ -6,6 +6,12 @@ renderHeader("products");
 setMainFocus();
 
 const grid = document.getElementById("productGrid");
+const search = document.getElementById("search");
+const sort = document.getElementById("sort");
+
+function priceText(p) {
+  return `£${p.price.toFixed(2)}`;
+}
 
 function cardHtml(p) {
   return `
@@ -14,7 +20,7 @@ function cardHtml(p) {
       <div class="card-body">
         <h2><a href="product.html?id=${encodeURIComponent(p.id)}">${escapeHtml(p.name)}</a></h2>
         <p class="muted">${escapeHtml(p.description)}</p>
-        <p class="price">£${p.price.toFixed(2)}</p>
+        <p class="price">${priceText(p)}</p>
         <button class="btn btn-primary" type="button" data-add="${escapeHtml(p.id)}">
           Add to cart
         </button>
@@ -23,7 +29,32 @@ function cardHtml(p) {
   `;
 }
 
-grid.innerHTML = PRODUCTS.map(cardHtml).join("");
+function applySort(items, mode) {
+  const arr = [...items];
+  if (mode === "price-asc") arr.sort((a, b) => a.price - b.price);
+  if (mode === "price-desc") arr.sort((a, b) => b.price - a.price);
+  if (mode === "name-asc") arr.sort((a, b) => a.name.localeCompare(b.name));
+  return arr;
+}
+
+function render() {
+  const q = (search.value || "").trim().toLowerCase();
+  const filtered = PRODUCTS.filter(p => {
+    if (!q) return true;
+    return (
+      p.name.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      (p.details || "").toLowerCase().includes(q)
+    );
+  });
+
+  const sorted = applySort(filtered, sort.value);
+  grid.innerHTML = sorted.map(cardHtml).join("");
+
+  if (sorted.length === 0) {
+    grid.innerHTML = `<div class="panel" role="status">No products match your search.</div>`;
+  }
+}
 
 grid.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-add]");
@@ -31,8 +62,18 @@ grid.addEventListener("click", (e) => {
 
   const id = btn.getAttribute("data-add");
   addToCart(id, 1);
-  updateCartBadge();
+  updateCartBadge(true);
 
+  const old = btn.textContent;
   btn.textContent = "Added";
-  setTimeout(() => { btn.textContent = "Add to cart"; }, 800);
+  btn.setAttribute("aria-label", "Added to cart");
+  setTimeout(() => {
+    btn.textContent = old.trim() ? old : "Add to cart";
+    btn.removeAttribute("aria-label");
+  }, 900);
 });
+
+search.addEventListener("input", render);
+sort.addEventListener("change", render);
+
+render();
