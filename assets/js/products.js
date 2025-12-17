@@ -1,14 +1,6 @@
-function svgDataUri(title, subtitle) {
-  const safeT = String(title).replace(/[<>&"]/g, "");
-  const safeS = String(subtitle || "").replace(/[<>&"]/g, "");
-  const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700">
-    <rect width="100%" height="100%" fill="#eeeeee"/>
-    <rect x="70" y="70" width="1060" height="560" rx="36" fill="#ffffff" stroke="#c9c9c9" stroke-width="6"/>
-    <text x="600" y="340" font-family="Arial, sans-serif" font-size="58" text-anchor="middle" fill="#111111">${safeT}</text>
-    <text x="600" y="420" font-family="Arial, sans-serif" font-size="30" text-anchor="middle" fill="#3f3f3f">${safeS}</text>
-  </svg>`;
-  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg.trim());
+function pic(seed) {
+  // stable, decent-looking photos; same image each time for a given seed
+  return `https://picsum.photos/seed/${encodeURIComponent(seed)}/1200/700`;
 }
 
 export const PRODUCTS = [
@@ -18,8 +10,8 @@ export const PRODUCTS = [
     description: "A BPA-free bottle with a leak-proof cap. Great for commuting and gym use.",
     details: "750ml reusable bottle, dishwasher safe, comfortable carry loop.",
     price: 14.99,
-    image: svgDataUri("Reusable Water Bottle", "750ml • BPA-free"),
-    alt: "Reusable water bottle product image"
+    image: pic("water-bottle"),
+    alt: "Reusable water bottle on a clean background"
   },
   {
     id: "p2",
@@ -27,8 +19,8 @@ export const PRODUCTS = [
     description: "Hardcover notebook with lined pages for study notes and daily planning.",
     details: "200 lined pages, durable cover, bookmark ribbon and elastic closure.",
     price: 8.50,
-    image: svgDataUri("Notebook (A5)", "200 pages • Lined"),
-    alt: "Notebook product image"
+    image: pic("notebook-a5"),
+    alt: "Hardcover notebook on a desk"
   },
   {
     id: "p3",
@@ -36,8 +28,8 @@ export const PRODUCTS = [
     description: "Braided USB-C cable for charging and data transfer.",
     details: "2 metres, reinforced connectors, supports fast charging (device dependent).",
     price: 6.25,
-    image: svgDataUri("USB-C Cable", "2m • Braided"),
-    alt: "USB-C cable product image"
+    image: pic("usb-c-cable"),
+    alt: "USB-C charging cable"
   },
   {
     id: "p4",
@@ -45,8 +37,8 @@ export const PRODUCTS = [
     description: "LED desk lamp with adjustable brightness for reading and focused work.",
     details: "3 brightness levels, adjustable angle, energy-efficient LED.",
     price: 22.00,
-    image: svgDataUri("Desk Lamp", "LED • Adjustable"),
-    alt: "Desk lamp product image"
+    image: pic("desk-lamp"),
+    alt: "Desk lamp lighting a workspace"
   },
   {
     id: "p5",
@@ -54,8 +46,8 @@ export const PRODUCTS = [
     description: "Comfort-grip wireless mouse with quiet clicks.",
     details: "2.4GHz wireless, adjustable DPI, ergonomic shape for long sessions.",
     price: 18.75,
-    image: svgDataUri("Wireless Mouse", "Quiet clicks • Ergonomic"),
-    alt: "Wireless mouse product image"
+    image: pic("wireless-mouse"),
+    alt: "Wireless mouse on a table"
   },
   {
     id: "p6",
@@ -63,8 +55,8 @@ export const PRODUCTS = [
     description: "Lightweight daypack with a padded sleeve for laptops.",
     details: "Fits up to 15-inch laptops, water-resistant fabric, multiple compartments.",
     price: 34.95,
-    image: svgDataUri("Backpack", "Laptop sleeve • Daypack"),
-    alt: "Backpack product image"
+    image: pic("backpack"),
+    alt: "Backpack standing upright"
   },
   {
     id: "p7",
@@ -72,8 +64,8 @@ export const PRODUCTS = [
     description: "Insulated mug for hot and cold drinks, ideal for travel.",
     details: "Stainless steel, spill-resistant lid, keeps drinks warm longer.",
     price: 16.40,
-    image: svgDataUri("Travel Mug", "Insulated • Spill-resistant"),
-    alt: "Travel mug product image"
+    image: pic("travel-mug"),
+    alt: "Travel mug on a countertop"
   },
   {
     id: "p8",
@@ -81,8 +73,8 @@ export const PRODUCTS = [
     description: "Over-ear headphones with cushioned pads for comfort.",
     details: "Foldable design, adjustable headband, wired connection for reliability.",
     price: 49.99,
-    image: svgDataUri("Headphones", "Over-ear • Cushioned"),
-    alt: "Headphones product image"
+    image: pic("headphones"),
+    alt: "Over-ear headphones"
   },
   {
     id: "p9",
@@ -90,8 +82,8 @@ export const PRODUCTS = [
     description: "Adjustable phone stand for desk and video calls.",
     details: "Angle adjustment, non-slip base, works with most phone sizes.",
     price: 9.90,
-    image: svgDataUri("Phone Stand", "Adjustable • Non-slip"),
-    alt: "Phone stand product image"
+    image: pic("phone-stand"),
+    alt: "Phone stand on a desk"
   },
   {
     id: "p10",
@@ -99,8 +91,8 @@ export const PRODUCTS = [
     description: "10,000 mAh power bank for charging on the go.",
     details: "LED battery indicator, dual USB outputs, compact size.",
     price: 27.50,
-    image: svgDataUri("Portable Charger", "10,000 mAh • Dual USB"),
-    alt: "Portable charger product image"
+    image: pic("power-bank"),
+    alt: "Portable charger power bank"
   },
   {
     id: "p11",
@@ -108,8 +100,8 @@ export const PRODUCTS = [
     description: "Keep cables tidy with a compact organiser set.",
     details: "Includes 10 clips, reusable straps, helps reduce desk clutter.",
     price: 7.20,
-    image: svgDataUri("Cable Organiser", "Clips • Straps"),
-    alt: "Cable organiser product image"
+    image: pic("cable-organiser"),
+    alt: "Cable organiser clips"
   },
   {
     id: "p12",
@@ -117,8 +109,8 @@ export const PRODUCTS = [
     description: "Small speaker with clear sound for desks and small rooms.",
     details: "Bluetooth connectivity, USB charging, up to 6 hours playback (typical).",
     price: 19.30,
-    image: svgDataUri("Bluetooth Speaker", "Mini • Clear sound"),
-    alt: "Bluetooth speaker product image"
+    image: pic("bluetooth-speaker"),
+    alt: "Small bluetooth speaker"
   }
 ];
 
