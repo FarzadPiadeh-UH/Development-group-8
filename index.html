@@ -13,16 +13,32 @@
 
   <main id="main" class="container" tabindex="-1">
     <h1>Products</h1>
-    <p class="lede">Browse items and add them to your cart without reloading the page.</p>
+    <p class="lede">Add items to your cart. The cart updates instantly without reloading.</p>
 
     <section aria-label="Product listing">
+      <div class="toolbar">
+        <label for="search" class="sr-only">Search products</label>
+        <input id="search" type="search" placeholder="Search products..." />
+        <label for="sort" class="sr-only">Sort products</label>
+        <select id="sort">
+          <option value="featured">Sort: Featured</option>
+          <option value="price-asc">Sort: Price low to high</option>
+          <option value="price-desc">Sort: Price high to low</option>
+          <option value="name-asc">Sort: Name A to Z</option>
+        </select>
+      </div>
+
       <div id="productGrid" class="grid" role="list"></div>
+
+      <p class="hint">
+        Tip: use Tab to reach “Add to cart” buttons. The cart count updates with an accessible live message.
+      </p>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>Accessible Shop demo. WCAG-minded markup, keyboard support, and clear validation.</p>
+      <p>Demo e-commerce site for an accessibility-focused assignment.</p>
     </div>
   </footer>
 
