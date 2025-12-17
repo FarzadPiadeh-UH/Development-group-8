@@ -1,8 +1,8 @@
-import { PRODUCTS, getProductById } from "./products.js";
+import { getProductById } from "./products.js";
 
-const CART_KEY = "cart_v1";
-const CHECKOUT_KEY = "checkout_v1";
-const LAST_ORDER_KEY = "last_order_v1";
+const CART_KEY = "cart_v2";
+const CHECKOUT_KEY = "checkout_v2";
+const LAST_ORDER_KEY = "last_order_v2";
 
 function safeParse(json, fallback) {
   try { return JSON.parse(json); } catch { return fallback; }
