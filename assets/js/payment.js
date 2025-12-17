@@ -68,8 +68,8 @@ function validExpiry(mmYY) {
 
   const now = new Date();
   const year = 2000 + yy;
-  const exp = new Date(year, mm, 1); // first day of month after expiry month
-  return exp > now;
+  const expEnd = new Date(year, mm, 1); // month after expiry
+  return expEnd > now;
 }
 
 function validate() {
