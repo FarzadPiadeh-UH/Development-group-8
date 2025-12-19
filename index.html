@@ -1,49 +1,81 @@
-<main id="main" class="container" tabindex="-1">
-  <div class="layout">
-    <aside class="side" aria-label="Page sections">
-      <div class="panel">
-        <h2>Quick links</h2>
-        <ul>
-          <li><a href="cart.html">Go to cart</a></li>
-          <li><a href="checkout.html">Start checkout</a></li>
-          <li><a href="payment.html">Payment page</a></li>
-        </ul>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accessible Shop | Products</title>
+  <meta name="description" content="Accessible e-commerce demo: product listing, details, cart, checkout, and payment." />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
 
-        <h2 style="margin-top:1rem;">How to use</h2>
-        <p class="muted" style="margin:0;">
-          Use Search and Sort to narrow products. Use Add to cart to update the cart instantly.
-        </p>
-      </div>
-    </aside>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-    <section aria-label="Products">
-      <h1>Products</h1>
-      <p class="lede">A clean product list with instant cart updates and configurable display options.</p>
+  <header id="siteHeader" class="site-header"></header>
 
-      <div class="toolbar">
-        <label for="search" class="sr-only">Search products</label>
-        <input id="search" type="search" placeholder="Search products..." />
+  <main id="main" class="container" tabindex="-1">
+    <div class="layout">
+      <aside class="side" aria-label="Page sections">
+        <div class="panel">
+          <h2>Quick links</h2>
+          <ul>
+            <li><a href="cart.html">Go to cart</a></li>
+            <li><a href="checkout.html">Start checkout</a></li>
+            <li><a href="payment.html">Payment page</a></li>
+          </ul>
 
-        <label for="sort" class="sr-only">Sort products</label>
-        <select id="sort">
-          <option value="featured">Sort: Featured</option>
-          <option value="price-asc">Sort: Price low to high</option>
-          <option value="price-desc">Sort: Price high to low</option>
-          <option value="name-asc">Sort: Name A to Z</option>
-        </select>
-      </div>
-
-      <div id="productGrid" class="grid" role="list"></div>
-
-      <p class="hint">
-        Tip: Use the “Text size” and “High contrast” buttons in the top bar to configure the interface.
-      </p>
-
-      <noscript>
-        <div class="panel" role="status">
-          JavaScript is disabled, so “Add to cart” and filters won’t work. You can still read product information.
+          <h2 style="margin-top:1rem;">How to use</h2>
+          <p class="muted" style="margin:0;">
+            Use Search and Sort to narrow products. Use Add to cart to update the cart instantly.
+          </p>
         </div>
-      </noscript>
-    </section>
-  </div>
-</main>
+      </aside>
+
+      <section aria-label="Products">
+        <h1>Products</h1>
+        <p class="lede">A clean product list with instant cart updates and configurable display options.</p>
+
+        <div class="toolbar">
+          <label for="search" class="sr-only">Search products</label>
+          <input id="search" type="search" placeholder="Search products..." />
+
+          <label for="sort" class="sr-only">Sort products</label>
+          <select id="sort">
+            <option value="featured">Sort: Featured</option>
+            <option value="price-asc">Sort: Price low to high</option>
+            <option value="price-desc">Sort: Price high to low</option>
+            <option value="name-asc">Sort: Name A to Z</option>
+          </select>
+        </div>
+
+        <!-- primary container (new) -->
+        <div id="productGrid" class="grid" role="list"></div>
+
+        <!-- fallback container (old JS may still use this id) -->
+        <div id="productList" class="grid" role="list" hidden></div>
+
+        <p class="hint">
+          Tip: Use the “Text size” and “High contrast” buttons in the top bar to configure the interface.
+        </p>
+
+        <noscript>
+          <div class="panel" role="status">
+            JavaScript is disabled, so “Add to cart” and filters won’t work. You can still read product information.
+          </div>
+        </noscript>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container muted">
+      <p style="margin:0.9rem 0;">
+        Accessible Shop demo for coursework.
+      </p>
+    </div>
+  </footer>
+
+  <!-- IMPORTANT: make sure this path matches your real file -->
+  <script type="module" src="assets/js/index.js"></script>
+</body>
+</html>
