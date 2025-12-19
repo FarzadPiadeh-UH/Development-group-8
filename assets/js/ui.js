@@ -1,6 +1,6 @@
 import { cartCount, getCart } from "./cart-store.js";
 
-const PREF_KEY = "ui_prefs_v2";
+const PREF_KEY = "ui_prefs_v3";
 
 function loadPrefs() {
   try {
@@ -19,6 +19,7 @@ function applyPrefs(prefs) {
 }
 
 function syncSearchToPage(value) {
+  // if the index page has a search box, keep it in sync
   const pageSearch = document.getElementById("search");
   if (pageSearch) {
     pageSearch.value = value;
@@ -38,7 +39,7 @@ export function renderHeader(active = "") {
       <div class="brand">
         <a href="index.html">
           <div class="brand-name">Accessible Shop</div>
-          <div class="brand-tag">fast, clean, AA-friendly</div>
+          <div class="brand-tag">clean, professional, AA-friendly</div>
         </a>
       </div>
 
@@ -46,13 +47,11 @@ export function renderHeader(active = "") {
         <div class="search-wrap">
           <label class="sr-only" for="headerSearch">Search products</label>
           <input id="headerSearch" type="search" placeholder="Search products..." autocomplete="off" />
-          <button class="search-icon" type="button" id="headerSearchBtn" aria-label="Search">
-            🔍
-          </button>
+          <button class="search-icon" type="button" id="headerSearchBtn" aria-label="Search">🔍</button>
         </div>
       </div>
 
-      <div class="header-actions" aria-label="Account and cart">
+      <div class="header-actions" aria-label="Checkout and cart">
         <a class="pill" href="checkout.html">Checkout</a>
         <a class="pill" href="cart.html" ${active === "cart" ? 'aria-current="page"' : ""}>
           Cart <span class="badge" id="cartCount">0</span>
@@ -64,9 +63,8 @@ export function renderHeader(active = "") {
       <div class="container nav-row">
         <nav class="nav-links" aria-label="Primary">
           <a href="index.html" ${active === "products" ? 'aria-current="page"' : ""}>Products</a>
-          <a href="product.html?id=p1">Featured</a>
-          <a href="payment.html">Payment</a>
-          <a href="confirmation.html">Confirmation</a>
+          <a href="payment.html" ${active === "payment" ? 'aria-current="page"' : ""}>Payment</a>
+          <a href="confirmation.html" ${active === "confirmation" ? 'aria-current="page"' : ""}>Confirmation</a>
         </nav>
 
         <div class="display-controls" aria-label="Display options">
@@ -84,6 +82,10 @@ export function renderHeader(active = "") {
   const headerSearchBtn = document.getElementById("headerSearchBtn");
 
   if (headerSearch) {
+    // preload header search from page search if it exists
+    const pageSearch = document.getElementById("search");
+    if (pageSearch && pageSearch.value) headerSearch.value = pageSearch.value;
+
     headerSearch.addEventListener("input", (e) => syncSearchToPage(e.target.value));
     headerSearch.addEventListener("keydown", (e) => {
       if (e.key === "Enter") syncSearchToPage(headerSearch.value);
@@ -115,4 +117,18 @@ export function updateCartBadge(announce = true) {
 
   const live = document.getElementById("cartLive");
   if (live && announce) live.textContent = `Cart updated. ${count} item${count === 1 ? "" : "s"} in cart.`;
+}
+
+export function setMainFocus() {
+  const main = document.getElementById("main");
+  if (main) main.focus();
+}
+
+export function escapeHtml(s) {
+  return String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
