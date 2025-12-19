@@ -1,12 +1,12 @@
 import { cartCount, getCart } from "./cart-store.js";
 
-const PREF_KEY = "ui_prefs_v1";
+const PREF_KEY = "ui_prefs_v2";
 
 function loadPrefs() {
   try {
-    return JSON.parse(localStorage.getItem(PREF_KEY)) || { bigText: false, highContrast: false };
+    return JSON.parse(localStorage.getItem(PREF_KEY)) || { bigText: false };
   } catch {
-    return { bigText: false, highContrast: false };
+    return { bigText: false };
   }
 }
 
@@ -16,7 +16,14 @@ function savePrefs(prefs) {
 
 function applyPrefs(prefs) {
   document.documentElement.classList.toggle("big-text", !!prefs.bigText);
-  document.documentElement.classList.toggle("hc", !!prefs.highContrast);
+}
+
+function syncSearchToPage(value) {
+  const pageSearch = document.getElementById("search");
+  if (pageSearch) {
+    pageSearch.value = value;
+    pageSearch.dispatchEvent(new Event("input", { bubbles: true }));
+  }
 }
 
 export function renderHeader(active = "") {
@@ -27,49 +34,66 @@ export function renderHeader(active = "") {
   if (!el) return;
 
   el.innerHTML = `
-    <div class="utility-bar">
-      <div class="container utility-inner" role="navigation" aria-label="Utility">
-        <div class="utility-links">
-          <a href="index.html">Home</a>
-          <a href="checkout.html">Checkout</a>
-          <a href="payment.html">Payment</a>
-        </div>
-
-        <div class="utility-controls" aria-label="Display options">
-          <button type="button" class="control-btn" id="toggleText" aria-pressed="${prefs.bigText ? "true" : "false"}">
-            Text size
-          </button>
-          <button type="button" class="control-btn" id="toggleContrast" aria-pressed="${prefs.highContrast ? "true" : "false"}">
-            High contrast
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="container header-inner">
+    <div class="container header-top">
       <div class="brand">
         <a href="index.html">
           <div class="brand-name">Accessible Shop</div>
-          <div class="brand-tag">inclusive, configurable, consistent</div>
+          <div class="brand-tag">fast, clean, AA-friendly</div>
         </a>
       </div>
 
-      <nav class="nav" aria-label="Primary">
-        <a href="index.html" ${active === "products" ? 'aria-current="page"' : ""}>Products</a>
-        <a href="cart.html" class="cart-pill" ${active === "cart" ? 'aria-current="page"' : ""}>
-          Cart <span id="cartCount">(0)</span>
+      <div class="header-search" role="search" aria-label="Site search">
+        <div class="search-wrap">
+          <label class="sr-only" for="headerSearch">Search products</label>
+          <input id="headerSearch" type="search" placeholder="Search products..." autocomplete="off" />
+          <button class="search-icon" type="button" id="headerSearchBtn" aria-label="Search">
+            🔍
+          </button>
+        </div>
+      </div>
+
+      <div class="header-actions" aria-label="Account and cart">
+        <a class="pill" href="checkout.html">Checkout</a>
+        <a class="pill" href="cart.html" ${active === "cart" ? 'aria-current="page"' : ""}>
+          Cart <span class="badge" id="cartCount">0</span>
         </a>
-      </nav>
+      </div>
+    </div>
+
+    <div class="header-nav">
+      <div class="container nav-row">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html" ${active === "products" ? 'aria-current="page"' : ""}>Products</a>
+          <a href="product.html?id=p1">Featured</a>
+          <a href="payment.html">Payment</a>
+          <a href="confirmation.html">Confirmation</a>
+        </nav>
+
+        <div class="display-controls" aria-label="Display options">
+          <button type="button" class="control-btn" id="toggleText" aria-pressed="${prefs.bigText ? "true" : "false"}">
+            Text size
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="sr-only" id="cartLive" aria-live="polite"></div>
-    <div class="sr-only" id="uiLive" aria-live="polite"></div>
   `;
 
-  const toggleText = document.getElementById("toggleText");
-  const toggleContrast = document.getElementById("toggleContrast");
-  const uiLive = document.getElementById("uiLive");
+  const headerSearch = document.getElementById("headerSearch");
+  const headerSearchBtn = document.getElementById("headerSearchBtn");
 
+  if (headerSearch) {
+    headerSearch.addEventListener("input", (e) => syncSearchToPage(e.target.value));
+    headerSearch.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") syncSearchToPage(headerSearch.value);
+    });
+  }
+  if (headerSearchBtn) {
+    headerSearchBtn.addEventListener("click", () => syncSearchToPage(headerSearch ? headerSearch.value : ""));
+  }
+
+  const toggleText = document.getElementById("toggleText");
   if (toggleText) {
     toggleText.addEventListener("click", () => {
       const p = loadPrefs();
@@ -77,18 +101,6 @@ export function renderHeader(active = "") {
       savePrefs(p);
       applyPrefs(p);
       toggleText.setAttribute("aria-pressed", p.bigText ? "true" : "false");
-      if (uiLive) uiLive.textContent = p.bigText ? "Large text enabled." : "Large text disabled.";
-    });
-  }
-
-  if (toggleContrast) {
-    toggleContrast.addEventListener("click", () => {
-      const p = loadPrefs();
-      p.highContrast = !p.highContrast;
-      savePrefs(p);
-      applyPrefs(p);
-      toggleContrast.setAttribute("aria-pressed", p.highContrast ? "true" : "false");
-      if (uiLive) uiLive.textContent = p.highContrast ? "High contrast enabled." : "High contrast disabled.";
     });
   }
 
@@ -96,26 +108,11 @@ export function renderHeader(active = "") {
 }
 
 export function updateCartBadge(announce = true) {
-  const cart = getCart();
-  const count = cartCount(cart);
+  const count = cartCount(getCart());
 
   const badge = document.getElementById("cartCount");
-  if (badge) badge.textContent = `(${count})`;
+  if (badge) badge.textContent = String(count);
 
   const live = document.getElementById("cartLive");
   if (live && announce) live.textContent = `Cart updated. ${count} item${count === 1 ? "" : "s"} in cart.`;
-}
-
-export function setMainFocus() {
-  const main = document.getElementById("main");
-  if (main) main.focus();
-}
-
-export function escapeHtml(s) {
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
