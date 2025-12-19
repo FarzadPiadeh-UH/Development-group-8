@@ -19,22 +19,27 @@
   --radius2: 18px;
 
   --max: 1120px;
+
+  --base-font: 16px;
 }
 
 *{ box-sizing:border-box; }
 
-html,body{
+html{ font-size: var(--base-font); }
+
+body{
   margin:0;
   padding:0;
   background:var(--bg);
   color:var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
   line-height:1.55;
-  letter-spacing: 0.1px;
+  letter-spacing:0.1px;
 }
 
 a{ color:var(--primary); }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
+
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible{
   outline:3px solid var(--primary);
   outline-offset:3px;
 }
@@ -54,14 +59,60 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .container{
   width:min(var(--max), 92vw);
   margin:0 auto;
-  padding: 1.15rem 0;
+  padding: 1.1rem 0;
 }
 
+/* consistent utility links (always in the same place) */
+.utility-bar{
+  border-bottom:1px solid var(--border);
+  background: var(--panel);
+}
+.utility-inner{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.5rem;
+  align-items:center;
+  justify-content:space-between;
+  padding:0.6rem 0;
+}
+.utility-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.35rem;
+}
+.utility-links a{
+  text-decoration:none;
+  padding:0.4rem 0.65rem;
+  border-radius:999px;
+  border:1px solid transparent;
+  color: var(--text);
+}
+.utility-links a:hover{
+  background:#fff;
+  border-color: var(--border);
+}
+.utility-controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.35rem;
+  align-items:center;
+}
+.control-btn{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius: 999px;
+  padding:0.4rem 0.65rem;
+  cursor:pointer;
+  font: inherit;
+}
+.control-btn:hover{ background: var(--panel2); }
+
+/* main header */
 .site-header{
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.92);
   backdrop-filter: blur(10px);
   border-bottom:1px solid var(--border);
 }
@@ -71,11 +122,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   align-items:center;
   justify-content:space-between;
   gap:1rem;
+  padding: 0.9rem 0;
 }
 
 .brand a{ text-decoration:none; color:var(--text); }
 .brand-name{
-  font-size:1.15rem;
+  font-size:1.2rem;
   font-weight:800;
   letter-spacing:0.2px;
 }
@@ -117,9 +169,41 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   background: var(--panel);
 }
 
+/* page layout: focus attention down the middle, optional left panel */
+.layout{
+  display:grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.1rem;
+  align-items:start;
+}
+
+.side{
+  position: sticky;
+  top: 126px; /* below utility + header */
+}
+
+.side .panel{
+  box-shadow: var(--shadow2);
+  background: #fff;
+}
+
+.side h2{
+  margin:0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.side a{
+  text-decoration:none;
+}
+.side ul{
+  margin:0.25rem 0 0;
+  padding-left: 1.05rem;
+}
+.side li{ margin: 0.3rem 0; }
+
 main h1{
-  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
-  margin: 0.25rem 0 0.3rem;
+  font-size: clamp(1.55rem, 1.1rem + 1.4vw, 2.35rem);
+  margin: 0.25rem 0 0.35rem;
 }
 .lede{
   color:var(--muted);
@@ -167,7 +251,7 @@ main h1{
 }
 .card img{
   width:100%;
-  height: 190px;
+  height: 200px;
   object-fit: cover;
   background: var(--panel2);
   display:block;
@@ -340,9 +424,35 @@ main h1{
   box-shadow: var(--shadow2);
 }
 
+/* inclusive control modes */
+html.big-text{ --base-font: 18px; }
+html.hc{
+  --bg:#0b1020;
+  --text:#f8fafc;
+  --muted:#cbd5e1;
+  --border:#334155;
+  --panel:#0f172a;
+  --panel2:#111c33;
+  --primary:#60a5fa;
+  --primaryText:#0b1020;
+}
+html.hc .site-header{ background: rgba(11,16,32,0.92); }
+html.hc .card, html.hc .table, html.hc .panel-subtle{ background: #0f172a; }
+html.hc .btn{ background: #0f172a; color: var(--text); }
+html.hc .control-btn{ background:#0f172a; color: var(--text); }
+
+@media (max-width: 920px){
+  .layout{ grid-template-columns: 1fr; }
+  .side{ position: static; }
+}
+
 @media (max-width: 720px){
   .header-inner{ flex-direction: column; align-items: flex-start; }
   .field-row{ grid-template-columns: 1fr; }
   .detail-grid{ grid-template-columns: 1fr; }
-  .card img{ height: 210px; }
+  .card img{ height: 220px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .card, .btn{ transition: none; }
 }
