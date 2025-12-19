@@ -4,13 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Accessible Shop | Products</title>
-  <meta name="description" content="Accessible e-commerce demo: product listing, details, cart, checkout, and payment." />
+  <meta name="description" content="Accessible e-commerce demo with product listing, cart, checkout, and payment." />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
 
+  <!-- Header rendered by ui.js -->
   <header id="siteHeader" class="site-header"></header>
 
   <main id="main" class="container" tabindex="-1">
@@ -33,7 +36,9 @@
 
       <section aria-label="Products">
         <h1>Products</h1>
-        <p class="lede">A clean product list with instant cart updates and configurable display options.</p>
+        <p class="lede">
+          A clean product list with instant cart updates and configurable display options.
+        </p>
 
         <div class="toolbar">
           <label for="search" class="sr-only">Search products</label>
@@ -48,11 +53,8 @@
           </select>
         </div>
 
-        <!-- primary container (new) -->
+        <!-- THIS is where listing.js injects products -->
         <div id="productGrid" class="grid" role="list"></div>
-
-        <!-- fallback container (old JS may still use this id) -->
-        <div id="productList" class="grid" role="list" hidden></div>
 
         <p class="hint">
           Tip: Use the “Text size” and “High contrast” buttons in the top bar to configure the interface.
@@ -60,7 +62,7 @@
 
         <noscript>
           <div class="panel" role="status">
-            JavaScript is disabled, so “Add to cart” and filters won’t work. You can still read product information.
+            JavaScript is disabled, so “Add to cart” and filters won’t work.
           </div>
         </noscript>
       </section>
@@ -69,13 +71,12 @@
 
   <footer class="site-footer">
     <div class="container muted">
-      <p style="margin:0.9rem 0;">
-        Accessible Shop demo for coursework.
-      </p>
+      <p style="margin:0.9rem 0;">Accessible Shop demo for coursework.</p>
     </div>
   </footer>
 
-  <!-- IMPORTANT: make sure this path matches your real file -->
-  <script type="module" src="assets/js/index.js"></script>
+  <!-- ✅ Correct JS files -->
+  <script type="module" src="assets/js/ui.js"></script>
+  <script type="module" src="assets/js/listing.js"></script>
 </body>
 </html>
