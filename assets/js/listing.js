@@ -58,7 +58,9 @@ function renderProducts(list) {
           </div>
 
           <div class="actions">
-            <button class="btn btn-primary" type="button" data-add="${escapeHtml(p.id)}">Add to cart</button>
+            <button class="btn btn-primary" type="button" data-add="${escapeHtml(p.id)}">
+              <span aria-hidden="true">🛒</span> Add to cart
+            </button>
             <a class="btn" href="product.html?id=${encodeURIComponent(p.id)}">View details</a>
           </div>
         </div>

@@ -37,7 +37,9 @@ if (!p) {
           <p>${escapeHtml(p.details || "")}</p>
           <p class="price">£${p.price.toFixed(2)}</p>
 
-          <button class="btn btn-primary" type="button" id="addBtn">Add to cart</button>
+          <button class="btn btn-primary" type="button" id="addBtn">
+            <span aria-hidden="true">🛒</span> Add to cart
+          </button>
 
           <p class="hint">Adding updates the cart immediately.</p>
           <p><a href="cart.html">Go to cart</a></p>
