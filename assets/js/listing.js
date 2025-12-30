@@ -33,12 +33,15 @@ function renderProducts(list) {
 
   grid.innerHTML = list.map(p => {
     const m = pickMeta(p.id);
-    const imgAlt = p.alt || p.name;
+    const hasVariants = Array.isArray(p.variants) && p.variants.length >= 2;
+    const firstVariant = hasVariants ? p.variants[0] : null;
+    const imgSrc = hasVariants ? firstVariant.image : p.image;
+    const imgAlt = hasVariants ? (firstVariant.alt || p.alt || p.name) : (p.alt || p.name);
 
     return `
-      <article class="card" role="listitem">
+      <article class="card" role="listitem" ${hasVariants ? `data-variants="1" data-product="${escapeHtml(p.id)}"` : ""}>
         <div class="card-media">
-          <img src="${escapeHtml(p.image)}" alt="${escapeHtml(imgAlt)}" loading="lazy">
+          <img class="card-img" src="${escapeHtml(imgSrc)}" alt="${escapeHtml(imgAlt)}" loading="lazy">
           <span class="badge-chip">${escapeHtml(m.badge)}</span>
           <span class="badge-chip alt">${escapeHtml(m.ship)}</span>
         </div>
@@ -52,6 +55,20 @@ function renderProducts(list) {
           </div>
 
           <p class="muted">${escapeHtml(p.description)}</p>
+
+          ${hasVariants ? `
+            <fieldset class="variant-field" aria-label="Choose colour for ${escapeHtml(p.name)}">
+              <legend>Colour</legend>
+              <div class="variant-options">
+                ${p.variants.map((v, i) => `
+                  <label class="variant-item">
+                    <input type="radio" name="colour-${escapeHtml(p.id)}" value="${escapeHtml(v.color)}" data-variant-index="${i}" ${i===0 ? "checked" : ""}>
+                    <span>${escapeHtml(v.color)}</span>
+                  </label>
+                `).join("")}
+              </div>
+            </fieldset>
+          ` : ""}
 
           <div class="price-row">
             <div class="price">${formatGBP(p.price)}</div>
@@ -74,6 +91,27 @@ function renderProducts(list) {
       updateCartBadge(true);
     });
   });
+
+  // Variant behaviour (only for products that have variants, currently p1)
+  grid.querySelectorAll("[data-variants='1']").forEach(card => {
+    const productId = card.getAttribute("data-product");
+    const product = PRODUCTS.find(p => p.id === productId);
+    if (!product || !Array.isArray(product.variants) || product.variants.length < 2) return;
+
+    const img = card.querySelector(".card-img");
+    const radios = card.querySelectorAll("input[type='radio'][data-variant-index]");
+
+    function applyVariant(index) {
+      const i = Number(index);
+      if (!Number.isFinite(i) || i < 0 || i >= product.variants.length) return;
+      const v = product.variants[i];
+      if (img) {
+        img.src = v.image;
+        img.alt = v.alt || product.alt || product.name;
+      }      radios.forEach(r => { r.checked = (r.getAttribute("data-variant-index") === String(i)); });
+    }
+
+    radios.forEach(r => r.addEventListener("change", () => applyVariant(r.getAttribute("data-variant-index"))));  });
 }
 
 function applyFilters() {
