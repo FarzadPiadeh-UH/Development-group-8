@@ -5,37 +5,19 @@
   <title>Accessible Shop</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- ✅ CSS (CRITICAL) -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
 
+  <!-- Header injected by ui.js -->
   <header id="siteHeader" class="site-header"></header>
 
   <main id="main" class="container" tabindex="-1">
-    <section class="hero" aria-label="Promotions">
-      <div class="hero-inner">
-        <div>
-          <h1 class="hero-title">Shop essentials, delivered fast</h1>
-          <p class="hero-sub">
-            Browse popular items. Add to cart instantly. Checkout with accessible forms.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#products">Shop now</a>
-            <a class="btn" href="cart.html">View cart</a>
-          </div>
-        </div>
-
-        <div class="hero-card" aria-label="Featured offer">
-          <div class="hero-card-title">Today’s deal</div>
-          <div class="hero-card-price">Up to 20% off selected items</div>
-          <div class="hero-card-note">Limited time</div>
-        </div>
-      </div>
-    </section>
-
     <div class="layout">
+
       <aside class="side" aria-label="Quick links">
         <div class="panel">
           <h2>Quick links</h2>
@@ -52,11 +34,11 @@
         </div>
       </aside>
 
-      <section id="products" class="section-card" aria-label="Product catalogue">
-        <div class="section-head">
-          <h2 class="section-title">Products</h2>
-          <p class="section-sub">Search, filter by category, then sort.</p>
-        </div>
+      <section aria-label="Products">
+        <h1>Products</h1>
+        <p class="lede">
+          A clean product list with instant cart updates and configurable display options.
+        </p>
 
         <div class="toolbar">
           <label class="sr-only" for="search">Search products</label>
@@ -71,8 +53,7 @@
           </select>
         </div>
 
-        <div id="categoryChips" class="chips" role="group" aria-label="Filter by category"></div>
-
+        <!-- PRODUCTS RENDER HERE -->
         <div id="productGrid" class="grid" role="list"></div>
 
         <p class="hint">
@@ -92,7 +73,10 @@
     </div>
   </footer>
 
+  <!-- ✅ JS (ORDER MATTERS) -->
   <script type="module" src="assets/js/ui.js"></script>
   <script type="module" src="assets/js/listing.js"></script>
 </body>
 </html>
+
+
