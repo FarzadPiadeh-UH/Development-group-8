@@ -1,82 +1,56 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Accessible Shop</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- ✅ CSS (CRITICAL) -->
-  <link rel="stylesheet" href="assets/css/style.css">
-</head>
-
-<body>
-  <a class="skip-link" href="#main">Skip to main content</a>
-
-  <!-- Header injected by ui.js -->
-  <header id="siteHeader" class="site-header"></header>
-
-  <main id="main" class="container" tabindex="-1">
-    <div class="layout">
-
-      <aside class="side" aria-label="Quick links">
-        <div class="panel">
-          <h2>Quick links</h2>
-          <ul>
-            <li><a href="cart.html">Go to cart</a></li>
-            <li><a href="checkout.html">Start checkout</a></li>
-            <li><a href="payment.html">Payment page</a></li>
-          </ul>
-
-          <h2 style="margin-top:1rem;">How to use</h2>
-          <p class="muted">
-            Use Search and Sort to narrow products. Use Add to cart to update the cart instantly.
-          </p>
-        </div>
-      </aside>
-
-      <section aria-label="Products">
-        <h1>Products</h1>
-        <p class="lede">
-          A clean product list with instant cart updates and configurable display options.
+<main id="main" class="container" tabindex="-1">
+  <section class="hero" aria-label="Promotions">
+    <div class="hero-inner">
+      <div>
+        <h1 class="hero-title">Shop essentials, delivered fast</h1>
+        <p class="hero-sub">
+          Browse popular items. Add to cart instantly. Checkout with accessible forms.
         </p>
-
-        <div class="toolbar">
-          <label class="sr-only" for="search">Search products</label>
-          <input id="search" type="search" placeholder="Search products">
-
-          <label class="sr-only" for="sort">Sort products</label>
-          <select id="sort">
-            <option value="featured">Sort: Featured</option>
-            <option value="price-asc">Sort: Price low to high</option>
-            <option value="price-desc">Sort: Price high to low</option>
-            <option value="name-asc">Sort: Name A to Z</option>
-          </select>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#products">Shop now</a>
+          <a class="btn" href="cart.html">View cart</a>
         </div>
+      </div>
 
-        <!-- PRODUCTS RENDER HERE -->
-        <div id="productGrid" class="grid" role="list"></div>
-
-        <p class="hint">
-          Tip: Use the “Text size” button in the top bar to configure the interface.
-        </p>
-
-        <noscript>
-          <div class="panel">JavaScript is required to use the cart.</div>
-        </noscript>
-      </section>
+      <div class="hero-card" aria-label="Featured offer">
+        <div class="hero-card-title">Today’s deal</div>
+        <div class="hero-card-price">Up to 20% off selected items</div>
+        <div class="hero-card-note">Limited time</div>
+      </div>
     </div>
-  </main>
+  </section>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p class="muted">Accessible Shop demo for coursework.</p>
+  <section id="products" class="section-card" aria-label="Product catalogue">
+    <div class="section-head">
+      <h2 class="section-title">Products</h2>
+      <p class="section-sub">Search, filter by category, then sort.</p>
     </div>
-  </footer>
 
-  <!-- ✅ JS (ORDER MATTERS) -->
-  <script type="module" src="assets/js/ui.js"></script>
-  <script type="module" src="assets/js/listing.js"></script>
-</body>
-</html>
+    <div class="toolbar">
+      <label class="sr-only" for="search">Search products</label>
+      <input id="search" type="search" placeholder="Search products">
 
+      <label class="sr-only" for="sort">Sort products</label>
+      <select id="sort">
+        <option value="featured">Sort: Featured</option>
+        <option value="price-asc">Sort: Price low to high</option>
+        <option value="price-desc">Sort: Price high to low</option>
+        <option value="name-asc">Sort: Name A to Z</option>
+      </select>
+    </div>
 
+    <div id="categoryChips" class="chips" role="group" aria-label="Filter by category"></div>
+
+    <div id="productGrid" class="grid" role="list"></div>
+
+    <p class="hint">
+      Tip: Use the “Text size” button in the header to adjust readability.
+    </p>
+  </section>
+
+  <noscript>
+    <div class="panel" role="status">
+      JavaScript is disabled, so “Add to cart” and filters won’t work.
+    </div>
+  </noscript>
+</main>
